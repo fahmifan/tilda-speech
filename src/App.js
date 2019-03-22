@@ -1,5 +1,50 @@
 import React, { Component } from 'react';
-import './App.css';
+import styled from 'styled-components'
+import wavePng from './icons/wave.png';
+
+const color = {
+  primary: '#FCB316',
+  secondary: '#005188',
+}
+
+const AppBar = styled.div`
+  width: 100%;
+  height: 50px;
+  background: ${color.secondary};
+
+  display: flex;
+  align-items: center;
+  padding-left: 8px;
+
+  span {
+    font-weight: bold;
+    color: white;
+    font-size: 1em;
+  }
+`
+const Header = styled.div`
+  width: 100%;
+`
+const Card = styled.div`
+  width: 340px;
+  height: 110px;
+  background-color: blue;
+  background: url(${wavePng});
+  background-repeat: no-repeat;
+  background-size: cover;
+  padding: 8px;
+
+  span {
+    color: ${color.primary};
+    font-size: 1.5em;
+    font-weight: bold;
+    font-family: 'sans-serif';
+  }
+`
+const Shell = styled.div`
+  width: 100%;
+  min-height: 100vh;
+`
 
 class App extends Component {
   state = {
@@ -99,11 +144,20 @@ class App extends Component {
 
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
+      <Shell>
+        <Header>
+          <AppBar>
+            <span>TSCDC-UNPAD</span>
+          </AppBar>
+          <Card>
+              <span>WHAT IS</span> <br />
+              <span>5 MINUTES</span> <br />
+              <span>CHALLENGE</span> <br />
+          </Card>
           <button onClick={() => this.speechRecog()}>Start Recog</button>
-        </header>
-      </div>
+        </Header>
+        <main></main>
+      </Shell>
     );
   }
 }
