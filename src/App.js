@@ -52,10 +52,20 @@ class App extends Component {
 
       recognition.onerror = (event) => {
         console.error(event)
+        recognition.stop();
       }
 
       recognition.onend = () => {
-        console.log('recog end');
+        console.log('curr dialogCount', this.state.dialogCount);
+        if (this.state.dialogCount > 5) {
+          recognition.stop();
+          console.log('recog end');
+          this.setState({ dialogCount: 0 })
+        } else {
+          setTimeout(() => {
+            recognition.start();
+          }, 1000)
+        }
       }
 
       recognition.start();
@@ -66,36 +76,36 @@ class App extends Component {
     }
   }
 
-  pseudoReply = () => {
-    const dialog = [
-      'morning buddy , how are you',
-      'do you have some plan for today',
-      'don’t forget eat some breakfast and drink some drink , so you don’t sick',
-      'what time are you coming home',
-      'okay be carefull',
-      'thanks for your time'
-    ];
+  // pseudoReply = () => {
+  //   const dialog = [
+  //     'morning buddy , how are you',
+  //     'do you have some plan for today',
+  //     'don’t forget eat some breakfast and drink some drink , so you don’t sick',
+  //     'what time are you coming home',
+  //     'okay be carefull',
+  //     'thanks for your time'
+  //   ];
 
-    const delay = 5000;
+  //   const delay = 5000;
 
-    let durTime = 0;
-    dialog.forEach((_, i) => {
-      const replyWord = dialog[i];
-      if (replyWord.length > 70) {
-        durTime += 2000;
-      }
+  //   let durTime = 0;
+  //   dialog.forEach((_, i) => {
+  //     const replyWord = dialog[i];
+  //     if (replyWord.length > 70) {
+  //       durTime += 2000;
+  //     }
 
-      setTimeout(() => {
-          // say reply
-          const syntch = speechSynthesis;
-          const utterThis = new SpeechSynthesisUtterance(replyWord);
-          utterThis.lang = 'en-US';
-          console.log(replyWord);
-          syntch.speak(utterThis);
+  //     setTimeout(() => {
+  //         // say reply
+  //         const syntch = speechSynthesis;
+  //         const utterThis = new SpeechSynthesisUtterance(replyWord);
+  //         utterThis.lang = 'en-US';
+  //         console.log(replyWord);
+  //         syntch.speak(utterThis);
 
-      }, delay*i + durTime );
-    })
-  }
+  //     }, delay*i + durTime );
+  //   })
+  // }
 
   reply = () => {
     const dialog = [
@@ -124,7 +134,7 @@ class App extends Component {
     return (
       <div className="App">
         <header className="App-header">
-          <button onClick={() => this.pseudoReply()}>Start Recog</button>
+          <button onClick={() => this.speechRecog()}>Start Recog</button>
         </header>
       </div>
     );
