@@ -19,7 +19,7 @@ const AppBar = styled.div`
   width: 100%;
   height: 50px;
   box-sizing: border-box;
-  background: ${color.secondary};
+  background: ${color.secDark};
 
   display: flex;
   align-items: center;
@@ -227,7 +227,7 @@ class App extends Component {
 
     const Challenge = withRouter((props) => {
       if (countDown <= 0) {
-        this.handleStop();
+        this.handleStop()
         props.history.replace('/your-point')
       }
 
