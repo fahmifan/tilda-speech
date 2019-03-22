@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import styled from 'styled-components'
+import { BrowserRouter as Router, Route, withRouter } from 'react-router-dom'
+
 import wavePng from './icons/wave.png';
 import micKuningPng from './icons/mic-kuning.png';
 import micMerahPng from './icons/mic-merah.png';
 
+import IntroPage from './IntroPage';
 import PointPage from './PointPage';
-import { BrowserRouter as Router, Link, Route } from 'react-router-dom'
 
 const color = {
   primary: '#FCB316',
@@ -89,7 +91,7 @@ if (!('webkitSpeechRecognition' in window)) {
   alert('no web kit?');
 }
 
-const initCountDown = 60;
+const initCountDown = 10;
 
 class App extends Component {
   state = {
@@ -99,6 +101,10 @@ class App extends Component {
     isCountStart: false,
     // eslint-disable-next-line no-undef
     recognition: new webkitSpeechRecognition(),
+  }
+
+  componentDidMount() {
+    this.handleStart();
   }
 
   speechRecog = () => {
@@ -176,6 +182,7 @@ class App extends Component {
   }
 
   handleStop = () => {
+    this.state.recognition.stop();
     this.setState({ isCountStart: false, countDown: initCountDown }, () => {
       this.state.recognition.stop();
     })
@@ -212,22 +219,30 @@ class App extends Component {
         setTimeout(() => {
           this.setState({ countDown: countDown-1 })
         },1000)
+      } else {
+        this.handleStop();
       }
     }
 
-    const Challenge = () => (
-      <>
-      <Card>
-        <span style={{ margin: 'auto', fontSize: '3em' }}>00:{countDown < 10 ? `0${countDown}` : countDown}</span>
-      </Card> <br />
-      {
-        !isCountStart 
-          ? <StartBtn onClick={() => this.handleStart()} />
-          : <StopBtn />
-
+    const Challenge = withRouter((props) => {
+      if (countDown <= 0) {
+        this.handleStop();
+        props.history.replace('/your-point')
       }
-      </>
-    );
+
+      return (
+        <>
+        <Card>
+          <span style={{ margin: 'auto', fontSize: '3em' }}>00:{countDown < 10 ? `0${countDown}` : countDown}</span>
+        </Card> <br />
+        {
+          !isCountStart 
+            ? <StartBtn />
+            : <StopBtn />
+        }
+        </>
+      )
+    });
 
     return (
       <Router>
@@ -237,7 +252,8 @@ class App extends Component {
               <span>TSCDC-UNPAD</span>
             </AppBar>
             <Route path='/start-challenge' component={Challenge} />
-            <Route path='/' component={PointPage} />
+            <Route path='/your-point' render={() => <PointPage handleStop={() => this.handleStop()} /> } />
+            <Route path='/' exact component={IntroPage} />            
           </Header>
         </Shell>    
       </Router>
