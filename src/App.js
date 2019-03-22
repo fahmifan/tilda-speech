@@ -18,6 +18,7 @@ const color = {
 const AppBar = styled.div`
   width: 100%;
   height: 50px;
+  box-sizing: border-box;
   background: ${color.secondary};
 
   display: flex;
@@ -91,7 +92,7 @@ if (!('webkitSpeechRecognition' in window)) {
   alert('no web kit?');
 }
 
-const initCountDown = 10;
+const initCountDown = 60;
 
 class App extends Component {
   state = {
@@ -104,7 +105,7 @@ class App extends Component {
   }
 
   componentDidMount() {
-    this.handleStart();
+    // this.handleStart();
   }
 
   speechRecog = () => {
@@ -159,7 +160,7 @@ class App extends Component {
         if (this.state.dialogCount > 5) {
           recognition.stop();
           console.log('recog end');
-          this.setState({ dialogCount: 0 })
+          this.setState({ dialogCount: 0 });
         } else {
           setTimeout(() => {
             recognition.start();
@@ -237,7 +238,7 @@ class App extends Component {
         </Card> <br />
         {
           !isCountStart 
-            ? <StartBtn />
+            ? <StartBtn onClick={() => this.handleStart()} />
             : <StopBtn />
         }
         </>
@@ -251,9 +252,8 @@ class App extends Component {
             <AppBar>
               <span>TSCDC-UNPAD</span>
             </AppBar>
-            <Route path='/start-challenge' component={Challenge} />
             <Route path='/your-point' render={() => <PointPage handleStop={() => this.handleStop()} /> } />
-            <Route path='/' exact component={IntroPage} />            
+            <Route path='/' exact component={Challenge} />
           </Header>
         </Shell>    
       </Router>
