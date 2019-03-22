@@ -47,6 +47,7 @@ const CardEvent = styled.div`
   width: 100px;
   font-size: 12px;
   margin: 8px;
+  padding-bottom: 8px;
   box-shadow: 20px 16px 50px -38px rgba(0,0,0,0.75);
 `
 
