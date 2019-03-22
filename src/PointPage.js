@@ -32,7 +32,7 @@ const PointBadge = styled.div`
   height: 150px;
   margin: auto;
   margin-bottom: 50px;
-  box-shadow: 0px 0px 42px -13px rgba(0,0,0,0.75);
+  box-shadow: 0px 0px 42px -13px rgba(0,0,0,0.20);
 `
 const EventImg = styled.div`
   background: ${props => `url(${props.imgURL})` || '#ccc'};
@@ -65,7 +65,7 @@ class PointPage extends React.Component {
   state = {
     events: [
       {
-        desc: 'Seminar Informatika IFEST mengusung tema Industri 4.0',
+        desc: 'Persiapkan dirimu untuk menghadapi test TOEFL',
         img: imgEv1,
       },
       {
@@ -73,7 +73,7 @@ class PointPage extends React.Component {
         img: imgEv2
       },
       {
-        desc: 'Seminar Informatika IFEST mengusung tema Industri 4.0',
+        desc: 'Persiapkan dirimu untuk menghadapi test TOEFL',
         img: imgEv1
       },
       {
