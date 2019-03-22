@@ -61,6 +61,13 @@ class Challenge extends React.Component {
     speech: '',
     dialogCount: 0,
     countDown: initCountDown,
+    dialog: [
+      'morning, how are you',
+      'do you have some plans for today',
+      'don’t forget eat some breakfast and drink a glass of water, so you don’t get sick',
+      'what time are you coming home',
+      'i see, be carefull on your way home',
+    ],
     isCountStart: false,
     // eslint-disable-next-line no-undef
     recognition: new webkitSpeechRecognition(),
@@ -114,7 +121,7 @@ class Challenge extends React.Component {
       }
 
       recognition.onend = () => {
-        if (this.state.dialogCount > 5) {
+        if (this.state.dialogCount > this.state.dialog.length - 1) {
           recognition.stop();
           console.log('recog end');
           this.setState({ dialogCount: 0 });
@@ -125,7 +132,7 @@ class Challenge extends React.Component {
 
       recognition.start();
 
-      if (this.state.dialogCount > 5) {
+      if (this.state.dialogCount > this.state.dialog.length - 1) {
         recognition.stop();
       }
     }
@@ -144,14 +151,7 @@ class Challenge extends React.Component {
   }
 
   reply = () => {
-    const dialog = [
-      'morning buddy , how are you',
-      'do you have some plan for today',
-      'don’t forget eat some breakfast and have some drink, so you don’t sick',
-      'when are you coming home',
-      'okay be carefull',
-      'thanks for your time'
-    ];
+    const { dialog }= this.state;
 
     const currCount = this.state.dialogCount;
     const replyWord = dialog[currCount];
@@ -167,7 +167,12 @@ class Challenge extends React.Component {
   }
 
   render() {
-    const { countDown, isCountStart } = this.state;
+    const { countDown, isCountStart, dialogCount, dialog } = this.state;
+
+    if (dialogCount > dialog.length) {
+      this.state.recognition.stop();
+      this.props.history.replace('/your-point');
+    }
 
     if (isCountStart) {
       if (countDown > 0) {

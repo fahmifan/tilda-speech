@@ -45,12 +45,7 @@ const initCountDown = 60;
 
 class App extends Component {
   state = {
-    speech: '',
-    dialogCount: 0,
     countDown: initCountDown,
-    isCountStart: false,
-    // eslint-disable-next-line no-undef
-    recognition: new webkitSpeechRecognition(),
   }
 
   render() {
