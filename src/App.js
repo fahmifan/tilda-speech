@@ -35,8 +35,6 @@ class App extends Component {
           const speechLen = event.results[i].length;
           const lastSpeechConf = event.results[i][speechLen-1].confidence;
 
-          // console.log('lastSpeechConf', event.results[i][speechLen-1])
-
           if (event.results[i].isFinal && lastSpeechConf > 0) {
             console.log('event result', event.results[i]);
             final_transcript += event.results[i][0].transcript;
@@ -75,37 +73,6 @@ class App extends Component {
       }
     }
   }
-
-  // pseudoReply = () => {
-  //   const dialog = [
-  //     'morning buddy , how are you',
-  //     'do you have some plan for today',
-  //     'don’t forget eat some breakfast and drink some drink , so you don’t sick',
-  //     'what time are you coming home',
-  //     'okay be carefull',
-  //     'thanks for your time'
-  //   ];
-
-  //   const delay = 5000;
-
-  //   let durTime = 0;
-  //   dialog.forEach((_, i) => {
-  //     const replyWord = dialog[i];
-  //     if (replyWord.length > 70) {
-  //       durTime += 2000;
-  //     }
-
-  //     setTimeout(() => {
-  //         // say reply
-  //         const syntch = speechSynthesis;
-  //         const utterThis = new SpeechSynthesisUtterance(replyWord);
-  //         utterThis.lang = 'en-US';
-  //         console.log(replyWord);
-  //         syntch.speak(utterThis);
-
-  //     }, delay*i + durTime );
-  //   })
-  // }
 
   reply = () => {
     const dialog = [
