@@ -4,6 +4,9 @@ import wavePng from './icons/wave.png';
 import micKuningPng from './icons/mic-kuning.png';
 import micMerahPng from './icons/mic-merah.png';
 
+import PointPage from './PointPage';
+import { BrowserRouter as Router, Link, Route } from 'react-router-dom'
+
 const color = {
   primary: '#FCB316',
   secondary: '#005188',
@@ -73,6 +76,13 @@ height: 100px;
 margin: auto;
 margin-top: 100px;
 `
+const PointButton = styled.button`
+  background: ${color.secDark};
+  padding: 8px;
+  margin: auto;
+  color: white;
+`
+
 if (!('webkitSpeechRecognition' in window)) {
   // eslint-disable-next-line no-undef
   upgrade();
@@ -205,25 +215,32 @@ class App extends Component {
       }
     }
 
+    const Challenge = () => (
+      <>
+      <Card>
+        <span style={{ margin: 'auto', fontSize: '3em' }}>00:{countDown < 10 ? `0${countDown}` : countDown}</span>
+      </Card> <br />
+      {
+        !isCountStart 
+          ? <StartBtn onClick={() => this.handleStart()} />
+          : <StopBtn />
+
+      }
+      </>
+    );
 
     return (
-      <Shell>
-        <Header>
-          <AppBar>
-            <span>TSCDC-UNPAD</span>
-          </AppBar>
-          <Card>
-            <span style={{ margin: 'auto', fontSize: '3em' }}>00:{countDown < 10 ? `0${countDown}` : countDown}</span>
-          </Card> <br />
-          {
-            !isCountStart 
-              ? <StartBtn onClick={() => this.handleStart()} />
-              : <StopBtn />
-
-          }
-        </Header>
-        <main></main>
-      </Shell>
+      <Router>
+        <Shell>
+          <Header>
+            <AppBar>
+              <span>TSCDC-UNPAD</span>
+            </AppBar>
+            <Route path='/start-challenge' component={Challenge} />
+            <Route path='/' component={PointPage} />
+          </Header>
+        </Shell>    
+      </Router>
     );
   }
 }
