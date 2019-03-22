@@ -58,10 +58,6 @@ const Container = styled.div`
   padding: 8px;
 `
 
-const CardsTiltle = styled.span`
-  font-size: 24px;
-`
-
 class PointPage extends React.Component {
   state = {
     events: [
@@ -84,10 +80,6 @@ class PointPage extends React.Component {
     ]
   }
 
-  componentDidMount() {
-    this.props.handleStop();
-  }
-
   render() {    
     return (
       <>
@@ -99,14 +91,13 @@ class PointPage extends React.Component {
         <span style={{ fontSize: '18px', padding: '8px' }}>Unpad Closest Event</span> <br />
         <span style={{ padding: '8px', fontSize: '12px' }}>Click banner to get more info</span> <br />
         <Container>
-            {
-              this.state.events.map(ev => (
-                <CardEvent>
-                  <EventImg imgURL={ev.img} />
-                  <span style={{ padding: '8px', }}>{ev.desc}</span>
-                </CardEvent>
-              ))
-            }
+          { this.state.events.map(ev => (
+              <CardEvent>
+                <EventImg imgURL={ev.img} />
+                <span style={{ padding: '8px', }}>{ev.desc}</span>
+              </CardEvent>
+            ))
+          }
         </Container>
       </>
     );
