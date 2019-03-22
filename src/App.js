@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
 import styled from 'styled-components'
 import wavePng from './icons/wave.png';
+import micKuningPng from './icons/mic-kuning.png';
+import micMerahPng from './icons/mic-merah.png';
 
 const color = {
   primary: '#FCB316',
   secondary: '#005188',
+  secDark: '#1F3C74',
 }
 
 const AppBar = styled.div`
@@ -26,17 +29,24 @@ const Header = styled.div`
   width: 100%;
 `
 const Card = styled.div`
-  width: 340px;
   height: 110px;
   background-color: blue;
   background: url(${wavePng});
   background-repeat: no-repeat;
   background-size: cover;
+  background-position-y: center;
+  border-radius: 8px;
+  border: 0px;
   padding: 8px;
+  margin: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
 
   span {
     color: ${color.primary};
-    font-size: 1.5em;
+    font-size: 1.8em;
     font-weight: bold;
     font-family: 'sans-serif';
   }
@@ -46,10 +56,39 @@ const Shell = styled.div`
   min-height: 100vh;
 `
 
+const StartBtn = styled.div`
+  background: url(${micKuningPng});
+  background-size: cover;
+  width: 100px;
+  height: 100px;
+  margin: auto;
+  margin-top: 100px;
+`
+
+const StopBtn = styled.div`
+background: url(${micMerahPng});
+background-size: cover;
+width: 100px;
+height: 100px;
+margin: auto;
+margin-top: 100px;
+`
+if (!('webkitSpeechRecognition' in window)) {
+  // eslint-disable-next-line no-undef
+  upgrade();
+  alert('no web kit?');
+}
+
+const initCountDown = 60;
+
 class App extends Component {
   state = {
     speech: '',
     dialogCount: 0,
+    countDown: initCountDown,
+    isCountStart: false,
+    // eslint-disable-next-line no-undef
+    recognition: new webkitSpeechRecognition(),
   }
 
   speechRecog = () => {
@@ -61,7 +100,8 @@ class App extends Component {
       console.log('no web kit?');
     } else {
       // eslint-disable-next-line no-undef
-      const recognition = new webkitSpeechRecognition();
+      // const recognition = new webkitSpeechRecognition();
+      const { recognition } = this.state;
       recognition.lang = 'en-US'
       recognition.continuous = true
       recognition.maxAlternatives = 1
@@ -119,6 +159,18 @@ class App extends Component {
     }
   }
 
+  handleStart = () => {
+    this.setState({ isCountStart: true }, () => {
+      this.speechRecog();
+    });
+  }
+
+  handleStop = () => {
+    this.setState({ isCountStart: false, countDown: initCountDown }, () => {
+      this.state.recognition.stop();
+    })
+  }
+
   reply = () => {
     const dialog = [
       'morning buddy , how are you',
@@ -143,6 +195,17 @@ class App extends Component {
   }
 
   render() {
+    const { countDown, isCountStart } = this.state;
+
+    if (isCountStart) {
+      if (countDown > 0) {
+        setTimeout(() => {
+          this.setState({ countDown: countDown-1 })
+        },1000)
+      }
+    }
+
+
     return (
       <Shell>
         <Header>
@@ -150,11 +213,14 @@ class App extends Component {
             <span>TSCDC-UNPAD</span>
           </AppBar>
           <Card>
-              <span>WHAT IS</span> <br />
-              <span>5 MINUTES</span> <br />
-              <span>CHALLENGE</span> <br />
-          </Card>
-          <button onClick={() => this.speechRecog()}>Start Recog</button>
+            <span style={{ margin: 'auto', fontSize: '3em' }}>00:{countDown < 10 ? `0${countDown}` : countDown}</span>
+          </Card> <br />
+          {
+            !isCountStart 
+              ? <StartBtn onClick={() => this.handleStart()} />
+              : <StopBtn />
+
+          }
         </Header>
         <main></main>
       </Shell>
