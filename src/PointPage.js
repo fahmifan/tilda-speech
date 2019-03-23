@@ -64,18 +64,22 @@ class PointPage extends React.Component {
       {
         desc: 'Persiapkan dirimu untuk menghadapi test TOEFL',
         img: imgEv1,
+        url: 'https://www.neospectra.com/',
       },
       {
         desc: 'Seminar Informatika IFEST mengusung tema Industri 4.0',
-        img: imgEv2
+        img: imgEv2,
+        url: 'http://www.tbi.co.id/',
       },
       {
         desc: 'Persiapkan dirimu untuk menghadapi test TOEFL',
-        img: imgEv1
+        img: imgEv1,
+        url: 'http://www.tbi.co.id/',
       },
       {
         desc: 'Seminar Informatika IFEST mengusung tema Industri 4.0',
-        img: imgEv2
+        img: imgEv2,
+        url: 'https://www.neospectra.com/'
       }
     ]
   }
@@ -93,8 +97,10 @@ class PointPage extends React.Component {
         <Container>
           { this.state.events.map(ev => (
               <CardEvent>
-                <EventImg imgURL={ev.img} />
-                <span style={{ padding: '8px', }}>{ev.desc}</span>
+                <a href="http://www.tbi.co.id/">
+                  <EventImg imgURL={ev.img} />
+                  <span style={{ padding: '8px', }}>{ev.desc}</span>
+                </a>
               </CardEvent>
             ))
           }
